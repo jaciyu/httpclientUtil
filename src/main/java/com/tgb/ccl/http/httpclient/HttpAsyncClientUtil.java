@@ -72,9 +72,6 @@ public class HttpAsyncClientUtil{
 		execute(config);
 	}
 	
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
 	/**
 	 * 以Get方式，请求资源或服务
 	 * 
@@ -322,31 +319,17 @@ public class HttpAsyncClientUtil{
 		try {
 			//创建请求对象
 			HttpRequestBase request = getRequest(config.url(), config.method());
-			
 			//设置header信息
 			request.setHeaders(config.headers());
-			
 			//判断是否支持设置entity(仅HttpPost、HttpPut、HttpPatch支持)
 			if(HttpEntityEnclosingRequestBase.class.isAssignableFrom(request.getClass())){
 				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-				
 				//检测url中是否存在参数
 				config.url(Utils.checkHasParas(config.url(), nvps, config.inenc()));
-				
 				//装填参数
 				HttpEntity entity = Utils.map2List(nvps, config.map(), config.inenc());
-				
 				//设置参数到请求对象中
 				((HttpEntityEnclosingRequestBase)request).setEntity(entity);
-				
-				logger.info("请求地址："+config.url());
-				logger.info("请求参数："+nvps.toString());
-			}else{
-				int idx = config.url().indexOf("?");
-				logger.info("请求地址："+config.url().substring(0, (idx>0 ? idx:config.url().length())));
-				if(idx>0){
-					logger.info("请求参数："+config.url().substring(idx+1));
-				}
 			}
 			//执行请求
 			final CloseableHttpAsyncClient client = config.asynclient();
@@ -418,10 +401,6 @@ public class HttpAsyncClientUtil{
 			logger.error(e);
 		}
 	}
-	
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
 	
 	/**
 	 * 根据请求方法名，获取request对象

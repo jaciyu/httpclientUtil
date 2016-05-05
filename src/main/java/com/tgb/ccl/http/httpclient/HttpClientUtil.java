@@ -70,11 +70,7 @@ public class HttpClientUtil{
 			return client4HTTP;
 		}
 	}
-	
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
-	
+
 	/**
 	 * 以Get方式，请求资源或服务
 	 * 
@@ -304,10 +300,6 @@ public class HttpClientUtil{
 	public static OutputStream down(HttpConfig config) throws HttpProcessException {
 		return fmt2Stream(execute(config.method(HttpMethods.GET)), config.out());
 	}
-
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
 	
 	/**
 	 * 请求资源或服务
@@ -340,42 +332,24 @@ public class HttpClientUtil{
 		try {
 			//创建请求对象
 			HttpRequestBase request = getRequest(config.url(), config.method());
-			
 			//设置header信息
 			request.setHeaders(config.headers());
-			
 			//判断是否支持设置entity(仅HttpPost、HttpPut、HttpPatch支持)
 			if(HttpEntityEnclosingRequestBase.class.isAssignableFrom(request.getClass())){
 				List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-				
 				//检测url中是否存在参数
 				config.url(Utils.checkHasParas(config.url(), nvps, config.inenc()));
-				
 				//装填参数
 				HttpEntity entity = Utils.map2List(nvps, config.map(), config.inenc());
-				
 				//设置参数到请求对象中
 				((HttpEntityEnclosingRequestBase)request).setEntity(entity);
-				
-				logger.info("请求地址："+config.url());
-				if(nvps.size()>0){
-					logger.info("请求参数："+nvps.toString());
-				}
-			}else{
-				int idx = config.url().indexOf("?");
-				logger.info("请求地址："+config.url().substring(0, (idx>0 ? idx : config.url().length())));
-				if(idx>0){
-					logger.info("请求参数："+config.url().substring(idx+1));
-				}
 			}
 			//执行请求操作，并拿到结果（同步阻塞）
-			resp = (config.context()==null)?config.client().execute(request) : config.client().execute(request, config.context()) ;
-			
+			resp = (config.context()==null)?config.client().execute(request) : config.client().execute(request, config.context()) ;		
 			if(config.isReturnRespHeaders()){
 				//获取所有response的header信息
 				config.headers(resp.getAllHeaders());
 			}
-			
 			//获取结果实体
 			return resp;
 			
@@ -384,9 +358,6 @@ public class HttpClientUtil{
 		}
 	}
 	
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
-	//-----------华----丽----分----割----线--------------
 	
 	/**
 	 * 转化为字符串
