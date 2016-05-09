@@ -74,7 +74,16 @@ public class HttpConfig {
 	 * 传递参数
 	 */
 	private Map<String, Object> map;
-
+	
+	/**
+	 * 文本参数
+	 */
+	private String  body;
+	/**
+	 * body是否为json文本
+	 */
+	private boolean isJson =false;
+	
 	/**
 	 * 输入输出编码
 	 */
@@ -116,6 +125,23 @@ public class HttpConfig {
 		return this;
 	}
 	
+	public HttpConfig isJson(boolean isJson){
+		this.isJson = isJson;
+		return this;
+	}
+	
+	public boolean isJson(){
+		return this.isJson;
+	}
+	
+	public HttpConfig body(String body){
+		this.body = body;
+		return this;
+	}
+	
+	public String body(){
+		return this.body;
+	}	
 	/**
 	 * 资源url
 	 */
@@ -271,4 +297,5 @@ public class HttpConfig {
 	public IHandler handler() {
 		return handler;
 	}
+	
 }

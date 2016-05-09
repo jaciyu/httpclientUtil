@@ -22,6 +22,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
@@ -340,7 +342,7 @@ public class HttpClientUtil{
 				//检测url中是否存在参数
 				config.url(Utils.checkHasParas(config.url(), nvps, config.inenc()));
 				//装填参数
-				HttpEntity entity = Utils.map2List(nvps, config.map(), config.inenc());
+				HttpEntity entity =config.map()!=null&&config.map().size()>0?Utils.map2List(nvps, config.map(), config.inenc()):config.isJson()?new StringEntity(config.body(), ContentType.APPLICATION_JSON):new StringEntity(config.body()); //Utils.map2List(nvps, config.map(), config.inenc());
 				//设置参数到请求对象中
 				((HttpEntityEnclosingRequestBase)request).setEntity(entity);
 			}
